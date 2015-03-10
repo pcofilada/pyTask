@@ -43,10 +43,9 @@ def user_login(request):
 				login(request, user)
 				return HttpResponseRedirect('/')
 			else:
-				return HttpResponse('Your account is disabled.')
+				return render(request, 'authentication/login.html', {'message': 'Your account is disabled.'})
 		else:
-			print "Invalid login detauls: {0}, {1}".format(username, password)
-			return HttpResponse('Invalid login details')
+			return render(request, 'authentication/login.html', {'message': 'Invalid credentials.'})
 
 	else:
 		return render(request, 'authentication/login.html', {})
