@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from authentication.forms import UserForm
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect, HttpResponse
 
 # Create your views here.
 def register(request):
@@ -24,3 +26,23 @@ def register(request):
 	return render(request, 
 		'authentication/register.html',
 		{'user_form': user_form, 'registered': registered})
+
+def user_login(request):
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+
+		user = authenticate(username=username,password=password)
+
+		if user:
+			if user.is_active:
+				login(request, user)
+				return HttpResponseRedirect('/')
+			else:
+				return HttpResponse('Your account is disabled.')
+		else:
+			print "Invalid login detauls: {0}, {1}".format(username, password)
+			return HttpResponse('Invalid login details')
+
+	else:
+		return render(request, 'authentication/login.html', {})
