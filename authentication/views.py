@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from authentication.forms import UserForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+def  index(request):
+	return render(request, 'authentication/index.html', {})
+
 def register(request):
 	registered = False
 
@@ -49,5 +52,7 @@ def user_login(request):
 		return render(request, 'authentication/login.html', {})
 
 @login_required
-def  index(request):
-	return HttpResponse("Since you're logged in, you can see this text")
+def user_logout(request):
+	logout(request)
+
+	return HttpResponseRedirect('/')
