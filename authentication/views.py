@@ -2,6 +2,7 @@ from django.shortcuts import render
 from authentication.forms import UserForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def register(request):
@@ -46,3 +47,7 @@ def user_login(request):
 
 	else:
 		return render(request, 'authentication/login.html', {})
+
+@login_required
+def  index(request):
+	return HttpResponse("Since you're logged in, you can see this text")
