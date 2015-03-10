@@ -20,7 +20,7 @@
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
 		      </button>
-		      <a class="navbar-brand" href="#">pyTask</a>
+		      <a class="navbar-brand" href="/">pyTask</a>
 		    </div>
 
 		    <!-- Collect the nav links, forms, and other content for toggling -->
@@ -31,10 +31,10 @@
 		          <ul class="dropdown-menu" role="menu">
 		            {% if user.is_authenticated %}
 		            	<li><a href="#">Profile</a></li>
-		            	<li><a href="#">Logout</a></li>
+		            	<li><a href="/logout/">Logout</a></li>
 		            {% else %}
-		            	<li><a href="#">Register</a></li>
-		            	<li><a href="#">Login</a></li>
+		            	<li><a href="/register/">Register</a></li>
+		            	<li><a href="/login/">Login</a></li>
 		            {% endif %}
 		          </ul>
 		        </li>
