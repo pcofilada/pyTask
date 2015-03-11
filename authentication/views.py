@@ -34,23 +34,26 @@ def register(request):
 		{'user_form': user_form, 'registered': registered})
 
 def user_login(request):
-	if request.method == 'POST':
-		username = request.POST.get('username')
-		password = request.POST.get('password')
+	if not request.user.is_authenticated():
+		if request.method == 'POST':
+			username = request.POST.get('username')
+			password = request.POST.get('password')
 
-		user = authenticate(username=username,password=password)
+			user = authenticate(username=username,password=password)
 
-		if user:
-			if user.is_active:
-				login(request, user)
-				return HttpResponseRedirect('/')
+			if user:
+				if user.is_active:
+					login(request, user)
+					return HttpResponseRedirect('/')
+				else:
+					return render(request, 'authentication/login.html', {'message': 'Your account is disabled.'})
 			else:
-				return render(request, 'authentication/login.html', {'message': 'Your account is disabled.'})
-		else:
-			return render(request, 'authentication/login.html', {'message': 'Invalid credentials.'})
+				return render(request, 'authentication/login.html', {'message': 'Invalid credentials.'})
 
+		else:
+			return render(request, 'authentication/login.html', {})
 	else:
-		return render(request, 'authentication/login.html', {})
+		return HttpResponseRedirect('/')
 
 @login_required
 def user_logout(request):
