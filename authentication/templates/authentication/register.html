@@ -1,23 +1,40 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>pyTask</title>
-    </head>
-    <body>
-        <h1>Register with pyTask</h1>
+{% extends 'base.html' %}
 
-        {% if registered %}
-	        pyTask says: <strong>thank you for registering!</strong>
-        {% else %}
-	        pyTask says: <strong>register here!</strong><br />
+{% block title %}Register{% endblock %}
 
-	        <form id="user_form" method="post" action="/register/"
-	                enctype="multipart/form-data">
-	            {% csrf_token %}
-	            {{ user_form.as_p }}
-	            {{ profile_form.as_p }}
-	            <input type="submit" name="submit" value="Register" />
-	        </form>
+{% block content %}
+<div class="row">
+	<h1>Register</h1>
+	<form id="user_form" method="post" action="/register/">
+        {% if user_form.errors %}
+            <div class="alert alert-warning alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <p><strong>Warning!</strong></p>
+              <ul>
+					{% for field in user_form %}
+						{% if field.errors %}<li>{{ field.label }}: {{ field.errors|striptags }}</li>{% endif %}
+					{% endfor %}
+              </ul>
+            </div>
         {% endif %}
-    </body>
-</html>
+        {% if messages %}
+            <div class="alert alert-success alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              {% for message in messages %}
+              <p>{{ message.message }}</p>
+              {% endfor %}
+            </div>
+        {% endif %}
+		<div class="form-group">
+			{% csrf_token %}
+		</div>
+		{% for field in user_form %}
+			<div class="form-group">
+				{{ field.label_tag }}
+				{{ field }}
+			</div>
+		{% endfor %}
+		<input type="submit" name="submit" value="Register" class="btn btn-default" />
+	</form>
+</div>
+{% endblock %}

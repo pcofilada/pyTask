@@ -3,6 +3,8 @@ from authentication.forms import UserForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.contrib import messages
 
 # Create your views here.
 def  index(request):
@@ -22,8 +24,8 @@ def register(request):
 
 			registered = True
 
-		else:
-			print user_form.errors
+			messages.success( request, 'Registration Complete!' )
+			return HttpResponseRedirect(reverse('register'))
 	else:
 		user_form = UserForm()
 
