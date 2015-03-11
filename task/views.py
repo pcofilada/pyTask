@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 from task.models import Task
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 class IndexView(generic.ListView):
