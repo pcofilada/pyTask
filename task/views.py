@@ -9,4 +9,4 @@ class IndexView(generic.ListView):
 	context_object_name = 'latest_task_list'
 
 	def get_queryset(self):
-		return Task.objects.all()
+		return Task.objects.filter(user=self.request.user)
