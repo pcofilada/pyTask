@@ -44,7 +44,7 @@ def user_login(request):
 			if user:
 				if user.is_active:
 					login(request, user)
-					return HttpResponseRedirect('/')
+					return HttpResponseRedirect('/tasks/')
 				else:
 					return render(request, 'authentication/login.html', {'message': 'Your account is disabled.'})
 			else:
